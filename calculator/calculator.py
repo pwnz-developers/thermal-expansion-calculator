@@ -1,7 +1,7 @@
-# thermal/calculator.py
 from decimal import Decimal, getcontext
 
 getcontext().prec = 28
+
 
 class ThermalExpansionCalculator:
     """

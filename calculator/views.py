@@ -1,13 +1,11 @@
-# thermal/views.py
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from .forms import ThermalForm
 from .calculator import ThermalExpansionCalculator
 
+
+@csrf_exempt
 def calculator_view(request):
-    """
-    GET -> form displayed
-    POST -> validated inputs -> results shown
-    """
     form = ThermalForm(request.POST or None)
     results = None
 
@@ -20,14 +18,11 @@ def calculator_view(request):
         delta_T = form.cleaned_data["delta_T"]
 
         calc = ThermalExpansionCalculator(
-            L0=L0,
-            S0=S0,
-            V0=V0,
-            alpha=alpha,
-            E=E,
-            delta_T=delta_T
+            L0=L0, S0=S0, V0=V0, alpha=alpha, E=E, delta_T=delta_T
         )
 
         results = calc.results(rounding_places=6)
 
-    return render(request, "calculator/calculator.html", {"form": form, "results": results})
+    return render(
+        request, "calculator/calculator.html", {"form": form, "results": results}
+    )
