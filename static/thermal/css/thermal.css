@@ -1,0 +1,36 @@
+/* static/thermal/css/thermal.css */
+
+body {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  background: #fff;
+  color: #111;
+}
+
+header h1 {
+  font-weight: 700;
+}
+
+.result-card {
+  border: 2px solid #f0f0f0;
+  min-height: 220px;
+  background: #fff;
+  border-radius: 6px;
+}
+
+label.form-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn-outline-dark {
+  border-radius: 8px;
+  padding: 12px 22px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+  header, main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

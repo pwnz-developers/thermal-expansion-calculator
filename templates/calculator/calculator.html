@@ -1,0 +1,103 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Калькулятор теплового расширения</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'thermal/css/thermal.css' %}">
+  </head>
+  <body>
+    <header class="py-4 px-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Калькулятор теплового расширения деталей</h1>
+        <nav>
+          <a class="me-3 text-muted" href="/">Главная</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container my-5">
+      <div class="row">
+        <!-- Input block -->
+        <div class="col-md-6">
+          <h2 class="h5">Входные данные</h2>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row g-3 align-items-center">
+              <div class="col-9">
+                <label class="form-label">L₀ (мм)</label>
+                <input class="form-control" name="L0" value="{{ form.L0.value|default_if_none:'' }}" />
+                {% if form.L0.errors %}<div class="text-danger small">{{ form.L0.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">мм</div>
+
+              <div class="col-9">
+                <label class="form-label">S₀ (мм²)</label>
+                <input class="form-control" name="S0" value="{{ form.S0.value|default_if_none:'' }}" />
+                {% if form.S0.errors %}<div class="text-danger small">{{ form.S0.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">мм²</div>
+
+              <div class="col-9">
+                <label class="form-label">V₀ (см³)</label>
+                <input class="form-control" name="V0" value="{{ form.V0.value|default_if_none:'' }}" />
+                {% if form.V0.errors %}<div class="text-danger small">{{ form.V0.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">см³</div>
+
+              <div class="col-9">
+                <label class="form-label">α (1/°C)</label>
+                <input class="form-control" name="alpha" value="{{ form.alpha.value|default_if_none:'' }}" />
+                {% if form.alpha.errors %}<div class="text-danger small">{{ form.alpha.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">1/°C</div>
+
+              <div class="col-9">
+                <label class="form-label">E (МПа)</label>
+                <input class="form-control" name="E" value="{{ form.E.value|default_if_none:'' }}" />
+                {% if form.E.errors %}<div class="text-danger small">{{ form.E.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">МПа</div>
+
+              <div class="col-9">
+                <label class="form-label">ΔT (°C)</label>
+                <input class="form-control" name="delta_T" value="{{ form.delta_T.value|default_if_none:'' }}" />
+                {% if form.delta_T.errors %}<div class="text-danger small">{{ form.delta_T.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="col-3 d-flex align-items-center">°C</div>
+
+              <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-lg btn-outline-dark">РАССЧИТАТЬ</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Results block -->
+        <div class="col-md-6">
+          <h2 class="h5">Результаты</h2>
+          <div class="result-card p-4">
+            {% if results %}
+              <p><strong>ΔL =</strong> {{ results.delta_L }} мм</p>
+              <p><strong>ΔS =</strong> {{ results.delta_S }} мм²</p>
+              <p><strong>ΔV =</strong> {{ results.delta_V }} см³</p>
+              <p><strong>σ =</strong> {{ results.sigma }} МПа</p>
+            {% else %}
+              <p class="text-muted">Значения будут показаны здесь после расчёта.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="py-4 text-center text-muted">
+      © {{ now.year }} ThermalCalc
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
