@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    restart: always
     command: ["sh", "-e", "server_runner.sh"]
     volumes:
       - .:/app
