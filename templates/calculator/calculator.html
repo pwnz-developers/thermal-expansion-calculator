@@ -21,10 +21,10 @@
     </header>
 
     <main class="container my-5">
-      <div class="row">
+      <div class="row g-4">
         <!-- Input block -->
-        <div class="col-md-6">
-          <h2 class="h5">Входные данные</h2>
+        <div class="col-lg-6">
+          <h2 class="h5 mb-3">Входные данные</h2>
           <form method="post" novalidate>
             {% csrf_token %}
             <div class="row g-3 align-items-center">
@@ -71,16 +71,16 @@
               <div class="col-3 d-flex align-items-center">°C</div>
 
               <div class="col-12 mt-3">
-                <button type="submit" class="btn btn-lg btn-outline-dark">РАССЧИТАТЬ</button>
+                <button type="submit" class="btn btn-lg btn-outline-dark w-100">РАССЧИТАТЬ</button>
               </div>
             </div>
           </form>
         </div>
 
         <!-- Results block -->
-        <div class="col-md-6">
-          <h2 class="h5">Результаты</h2>
-          <div class="result-card p-4">
+        <div class="col-lg-6">
+          <h2 class="h5 mb-3">Результаты</h2>
+          <div class="result-card p-4 border rounded bg-light">
             {% if results %}
               <p><strong>ΔL =</strong> {{ results.delta_L }} мм</p>
               <p><strong>ΔS =</strong> {{ results.delta_S }} мм²</p>
@@ -91,6 +91,51 @@
             {% endif %}
           </div>
         </div>
+      </div>
+
+      <!-- History block -->
+      <div class="mt-5">
+        <h2 class="h5 mb-3">История расчётов</h2>
+        {% if contents %}
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>L₀ (мм)</th>
+                  <th>S₀ (мм²)</th>
+                  <th>V₀ (см³)</th>
+                  <th>α (1/°C)</th>
+                  <th>E (МПа)</th>
+                  <th>ΔT (°C)</th>
+                  <th>ΔL (мм)</th>
+                  <th>ΔS (мм²)</th>
+                  <th>ΔV (см³)</th>
+                  <th>σ (МПа)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in contents %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.L0 }}</td>
+                    <td>{{ item.S0 }}</td>
+                    <td>{{ item.V0 }}</td>
+                    <td>{{ item.alpha }}</td>
+                    <td>{{ item.E }}</td>
+                    <td>{{ item.delta_T }}</td>
+                    <td>{{ item.delta_L }}</td>
+                    <td>{{ item.delta_S }}</td>
+                    <td>{{ item.delta_V }}</td>
+                    <td>{{ item.sigma }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted">Пока нет сохранённых расчётов.</p>
+        {% endif %}
       </div>
     </main>
 
