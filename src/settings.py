@@ -5,7 +5,7 @@ SECRET_KEY = "django-insecure-h78*3q@ffm-uj0xokf130oy3fwkupl%drqgooi^j3929qke-pi
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["http://62.113.58.92"]
 
 INSTALLED_APPS = [
     "jazzmin",
@@ -25,13 +25,13 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 CSRF_COOKIE_SECURE = True
-
+CSRF_TRUSTED_ORIGINS = ["http://62.113.58.92"]
 
 ROOT_URLCONF = "src.urls"
 
