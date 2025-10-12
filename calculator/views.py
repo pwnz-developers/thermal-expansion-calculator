@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from .forms import ThermalForm
 from .calculator import ThermalExpansionCalculator
 from .models import ThermalExpansionCalculator as T_Model
 
 
+@ensure_csrf_cookie
 @csrf_exempt
 def calculator_view(request):
     form = ThermalForm(request.POST or None)

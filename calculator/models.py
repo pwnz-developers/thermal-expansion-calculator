@@ -27,12 +27,12 @@ class ThermalExpansionCalculator(models.Model):
 
     def save(self, *args, **kwargs):
         if ThermalExpansionCalculator.objects.filter(
-                L0=self.L0,
-                S0=self.S0,
-                V0=self.V0,
-                alpha=self.alpha,
-                E=self.E,
-                delta_T=self.delta_T,
+            L0=self.L0,
+            S0=self.S0,
+            V0=self.V0,
+            alpha=self.alpha,
+            E=self.E,
+            delta_T=self.delta_T,
         ).exists():
             return
         super().save(*args, **kwargs)

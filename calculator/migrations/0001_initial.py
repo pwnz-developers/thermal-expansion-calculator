@@ -7,30 +7,37 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ThermalExpansionCalculator',
+            name="ThermalExpansionCalculator",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('L0', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('S0', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('V0', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('alpha', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('E', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('delta_T', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('delta_L', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('delta_S', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('delta_V', models.DecimalField(decimal_places=6, max_digits=10)),
-                ('sigma', models.DecimalField(decimal_places=6, max_digits=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("L0", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("S0", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("V0", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("alpha", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("E", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("delta_T", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("delta_L", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("delta_S", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("delta_V", models.DecimalField(decimal_places=6, max_digits=10)),
+                ("sigma", models.DecimalField(decimal_places=6, max_digits=10)),
             ],
             options={
-                'verbose_name': 'ThermalExpansionCalculator',
-                'verbose_name_plural': 'ThermalExpansionCalculators',
-                'db_table': 'calculator_thermal_expansion_calculator',
-                'ordering': ['-id'],
+                "verbose_name": "ThermalExpansionCalculator",
+                "verbose_name_plural": "ThermalExpansionCalculators",
+                "db_table": "calculator_thermal_expansion_calculator",
+                "ordering": ["-id"],
             },
         ),
     ]

@@ -5,7 +5,8 @@ SECRET_KEY = "django-insecure-h78*3q@ffm-uj0xokf130oy3fwkupl%drqgooi^j3929qke-pi
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["62.113.58.92"]
+ALLOWED_HOSTS = ["62.113.58.92", "localhost", "127.0.0.1"]
+
 
 INSTALLED_APPS = [
     "jazzmin",
@@ -30,11 +31,18 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# CSRF Settings
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
-CSRF_USE_SESSIONS = False
-CSRF_COOKIE_SAMESITE = 'Lax'
-CSRF_TRUSTED_ORIGINS = ["http://62.113.58.92"]
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_TRUSTED_ORIGINS = [
+    "http://62.113.58.92",
+    "http://62.113.58.92:8000",
+]
+CSRF_COOKIE_DOMAIN = None
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SAMESITE = "Lax"
 
 ROOT_URLCONF = "src.urls"
 
@@ -45,6 +53,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
