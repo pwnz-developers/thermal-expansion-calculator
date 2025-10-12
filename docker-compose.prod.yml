@@ -15,6 +15,21 @@ services:
     networks:
       - app-network
 
+  postgres:
+    image: postgres:18-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: always
+
   nginx:
       image: nginx:1.29.2
       container_name: nginx-server

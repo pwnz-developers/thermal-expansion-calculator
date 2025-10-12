@@ -32,3 +32,4 @@ env/
 
 # MacOS
 .DS_Store
+pg_data
