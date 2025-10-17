@@ -9,86 +9,206 @@
     <title>Калькулятор теплового расширения</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'thermal/css/thermal.css' %}">
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+      .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      .result-card {
+        min-height: 200px;
+      }
+      .result-card p {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+      .table-responsive {
+        overflow-x: auto;
+      }
+      @media (max-width: 991.98px) {
+        .col-lg-6:first-child {
+          margin-bottom: 2rem;
+        }
+      }
+      @media (max-width: 575.98px) {
+        header h1 {
+          font-size: 1.25rem;
+        }
+        .result-card p {
+          font-size: 1rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <header class="py-4 px-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h1 class="h3 mb-0">Калькулятор теплового расширения деталей</h1>
-        <nav>
-          <a class="me-3 text-muted" href="/">Главная</a>
-        </nav>
+    <header class="bg-white shadow-sm py-3 py-md-4 px-3 px-md-5">
+      <div class="container-fluid">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+          <h1 class="h3 h5-sm mb-0">Калькулятор теплового расширения деталей</h1>
+          <nav>
+            <a class="text-decoration-none text-muted" href="/">Главная</a>
+          </nav>
+        </div>
       </div>
     </header>
 
-    <main class="container my-5">
+    <main class="container my-4 my-md-5">
       <div class="row g-4">
         <!-- Input block -->
         <div class="col-lg-6">
           <h2 class="h5 mb-3">Входные данные</h2>
-          <form method="post" novalidate>
-            {% csrf_token %}
-            <div class="row g-3 align-items-center">
-              <div class="col-9">
-                <label class="form-label">L₀ (мм)</label>
-                <input class="form-control" name="L0" value="{{ form.L0.value|default_if_none:'' }}" />
-                {% if form.L0.errors %}<div class="text-danger small">{{ form.L0.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">мм</div>
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="row g-3">
+                  <!-- L0 -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">L₀ (мм)</label>
+                        <input type="number" step="any" class="form-control" name="L0" value="{{ form.L0.value|default_if_none:'' }}" placeholder="Введите длину" />
+                        {% if form.L0.errors %}
+                          <div class="text-danger small mt-1">{{ form.L0.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">мм</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-9">
-                <label class="form-label">S₀ (мм²)</label>
-                <input class="form-control" name="S0" value="{{ form.S0.value|default_if_none:'' }}" />
-                {% if form.S0.errors %}<div class="text-danger small">{{ form.S0.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">мм²</div>
+                  <!-- S0 -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">S₀ (мм²)</label>
+                        <input type="number" step="any" class="form-control" name="S0" value="{{ form.S0.value|default_if_none:'' }}" placeholder="Введите площадь" />
+                        {% if form.S0.errors %}
+                          <div class="text-danger small mt-1">{{ form.S0.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">мм²</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-9">
-                <label class="form-label">V₀ (см³)</label>
-                <input class="form-control" name="V0" value="{{ form.V0.value|default_if_none:'' }}" />
-                {% if form.V0.errors %}<div class="text-danger small">{{ form.V0.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">см³</div>
+                  <!-- V0 -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">V₀ (см³)</label>
+                        <input type="number" step="any" class="form-control" name="V0" value="{{ form.V0.value|default_if_none:'' }}" placeholder="Введите объём" />
+                        {% if form.V0.errors %}
+                          <div class="text-danger small mt-1">{{ form.V0.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">см³</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-9">
-                <label class="form-label">α (1/°C)</label>
-                <input class="form-control" name="alpha" value="{{ form.alpha.value|default_if_none:'' }}" />
-                {% if form.alpha.errors %}<div class="text-danger small">{{ form.alpha.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">1/°C</div>
+                  <!-- alpha -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">α (1/°C)</label>
+                        <input type="number" step="any" class="form-control" name="alpha" value="{{ form.alpha.value|default_if_none:'' }}" placeholder="Коэффициент расширения" />
+                        {% if form.alpha.errors %}
+                          <div class="text-danger small mt-1">{{ form.alpha.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">1/°C</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-9">
-                <label class="form-label">E (МПа)</label>
-                <input class="form-control" name="E" value="{{ form.E.value|default_if_none:'' }}" />
-                {% if form.E.errors %}<div class="text-danger small">{{ form.E.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">МПа</div>
+                  <!-- E -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">E (МПа)</label>
+                        <input type="number" step="any" class="form-control" name="E" value="{{ form.E.value|default_if_none:'' }}" placeholder="Модуль упругости" />
+                        {% if form.E.errors %}
+                          <div class="text-danger small mt-1">{{ form.E.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">МПа</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-9">
-                <label class="form-label">ΔT (°C)</label>
-                <input class="form-control" name="delta_T" value="{{ form.delta_T.value|default_if_none:'' }}" />
-                {% if form.delta_T.errors %}<div class="text-danger small">{{ form.delta_T.errors.0 }}</div>{% endif %}
-              </div>
-              <div class="col-3 d-flex align-items-center">°C</div>
+                  <!-- delta_T -->
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <div class="col-8 col-sm-9">
+                        <label class="form-label">ΔT (°C)</label>
+                        <input type="number" step="any" class="form-control" name="delta_T" value="{{ form.delta_T.value|default_if_none:'' }}" placeholder="Изменение температуры" />
+                        {% if form.delta_T.errors %}
+                          <div class="text-danger small mt-1">{{ form.delta_T.errors.0 }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-3">
+                        <span class="text-muted small">°C</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-12 mt-3">
-                <button type="submit" class="btn btn-lg btn-outline-dark w-100">РАССЧИТАТЬ</button>
-              </div>
+                  <!-- Submit button -->
+                  <div class="col-12 mt-4">
+                    <button type="submit" class="btn btn-lg btn-dark w-100">
+                      РАССЧИТАТЬ
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
 
         <!-- Results block -->
         <div class="col-lg-6">
           <h2 class="h5 mb-3">Результаты</h2>
-          <div class="result-card p-4 border rounded bg-light">
-            {% if results %}
-              <p><strong>ΔL =</strong> {{ results.delta_L }} мм</p>
-              <p><strong>ΔS =</strong> {{ results.delta_S }} мм²</p>
-              <p><strong>ΔV =</strong> {{ results.delta_V }} см³</p>
-              <p><strong>σ =</strong> {{ results.sigma }} МПа</p>
-            {% else %}
-              <p class="text-muted">Значения будут показаны здесь после расчёта.</p>
-            {% endif %}
+          <div class="card shadow-sm">
+            <div class="card-body result-card">
+              {% if results %}
+                <div class="d-flex flex-column gap-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong>ΔL:</strong>
+                    <span>{{ results.delta_L }} мм</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong>ΔS:</strong>
+                    <span>{{ results.delta_S }} мм²</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong>ΔV:</strong>
+                    <span>{{ results.delta_V }} см³</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong>σ:</strong>
+                    <span>{{ results.sigma }} МПа</span>
+                  </div>
+                </div>
+              {% else %}
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <p class="text-muted text-center mb-0">
+                    Значения будут показаны здесь после расчёта.
+                  </p>
+                </div>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
@@ -97,50 +217,60 @@
       <div class="mt-5">
         <h2 class="h5 mb-3">История расчётов</h2>
         {% if contents %}
-          <div class="table-responsive">
-            <table class="table table-striped align-middle">
-              <thead class="table-dark">
-                <tr>
-                  <th>#</th>
-                  <th>L₀ (мм)</th>
-                  <th>S₀ (мм²)</th>
-                  <th>V₀ (см³)</th>
-                  <th>α (1/°C)</th>
-                  <th>E (МПа)</th>
-                  <th>ΔT (°C)</th>
-                  <th>ΔL (мм)</th>
-                  <th>ΔS (мм²)</th>
-                  <th>ΔV (см³)</th>
-                  <th>σ (МПа)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for item in contents %}
-                  <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ item.L0 }}</td>
-                    <td>{{ item.S0 }}</td>
-                    <td>{{ item.V0 }}</td>
-                    <td>{{ item.alpha }}</td>
-                    <td>{{ item.E }}</td>
-                    <td>{{ item.delta_T }}</td>
-                    <td>{{ item.delta_L }}</td>
-                    <td>{{ item.delta_S }}</td>
-                    <td>{{ item.delta_V }}</td>
-                    <td>{{ item.sigma }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <div class="card shadow-sm">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th>L₀<br><small class="fw-normal">(мм)</small></th>
+                      <th>S₀<br><small class="fw-normal">(мм²)</small></th>
+                      <th>V₀<br><small class="fw-normal">(см³)</small></th>
+                      <th>α<br><small class="fw-normal">(1/°C)</small></th>
+                      <th>E<br><small class="fw-normal">(МПа)</small></th>
+                      <th>ΔT<br><small class="fw-normal">(°C)</small></th>
+                      <th>ΔL<br><small class="fw-normal">(мм)</small></th>
+                      <th>ΔS<br><small class="fw-normal">(мм²)</small></th>
+                      <th>ΔV<br><small class="fw-normal">(см³)</small></th>
+                      <th>σ<br><small class="fw-normal">(МПа)</small></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in contents %}
+                      <tr style="cursor: pointer;" onclick="window.location='{% url 'thermal:detail' item.pk %}'">
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td>{{ item.L0|floatformat:2 }}</td>
+                        <td>{{ item.S0|floatformat:2 }}</td>
+                        <td>{{ item.V0|floatformat:2 }}</td>
+                        <td>{{ item.alpha|floatformat:2 }}</td>
+                        <td>{{ item.E|floatformat:2 }}</td>
+                        <td>{{ item.delta_T|floatformat:2 }}</td>
+                        <td>{{ item.delta_L|floatformat:2 }}</td>
+                        <td>{{ item.delta_S|floatformat:2 }}</td>
+                        <td>{{ item.delta_V|floatformat:2 }}</td>
+                        <td>{{ item.sigma|floatformat:2 }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         {% else %}
-          <p class="text-muted">Пока нет сохранённых расчётов.</p>
+          <div class="card shadow-sm">
+            <div class="card-body text-center py-5">
+              <p class="text-muted mb-0">Пока нет сохранённых расчётов.</p>
+            </div>
+          </div>
         {% endif %}
       </div>
     </main>
 
-    <footer class="py-4 text-center text-muted">
-      © {{ now.year }} ThermalCalc
+    <footer class="bg-white border-top py-4 text-center text-muted mt-5">
+      <div class="container">
+        © {{ now.year }} ThermalCalc
+      </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

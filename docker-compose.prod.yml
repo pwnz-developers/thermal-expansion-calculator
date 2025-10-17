@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    env_file:
+      - ./.env
     restart: always
     command: ["sh", "-e", "server_runner.sh"]
     volumes:
@@ -17,12 +17,8 @@ services:
 
   postgres:
     image: postgres:18-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+    env_file:
+      - ./.env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     networks:
@@ -30,7 +26,7 @@ services:
     restart: always
 
   nginx:
-      image: nginx:1.29.2
+      image: nginx:1.29
       container_name: nginx-server
       ports:
         - "80:80"

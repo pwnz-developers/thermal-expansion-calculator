@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from .forms import ThermalForm
 from .calculator import ThermalExpansionCalculator
@@ -10,7 +10,6 @@ from .models import ThermalExpansionCalculator as T_Model
 def calculator_view(request):
     form = ThermalForm(request.POST or None)
     results = None
-    contents = T_Model.objects.all()
 
     if request.method == "POST" and form.is_valid():
         L0 = form.cleaned_data["L0"]
@@ -38,9 +37,16 @@ def calculator_view(request):
             sigma=results["sigma"],
         )
         t_model.save()
-
+    m = T_Model.objects.all()
+    contents = [i.make_2() for i in m]
     return render(
         request,
         "calculator/calculator.html",
         {"form": form, "results": results, "contents": contents},
     )
+
+
+@ensure_csrf_cookie
+def calculator_detail_view(request, pk):
+    calc = get_object_or_404(T_Model, pk=pk)
+    return render(request, "calculator/detail.html", {"calc": calc})
